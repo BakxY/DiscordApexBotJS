@@ -1,0 +1,26 @@
+{
+  "name": "discordapexbotjs",
+  "version": "1.0.0",
+  "description": "This is a simple discord bot for viewing stats from the battle royal game Apex Legends. It is using the Apex Legends API of HugoDerave. You can find his repo [here](https://github.com/HugoDerave/ApexLegendsAPI)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BakxY/DiscordApexBotJS.git"
+  },
+  "keywords": [],
+  "author": "BakxY",
+  "license": "SEE LICENSE FILE",
+  "bugs": {
+    "url": "https://github.com/BakxY/DiscordApexBotJS/issues"
+  },
+  "homepage": "https://github.com/BakxY/DiscordApexBotJS#readme",
+  "dependencies": {
+    "@types/jquery": "^2.0.60",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "jquery": "^3.6.0"
+  }
+}
