@@ -1,39 +1,61 @@
 import { Client } from 'discord.js'
+
+// import getFiles
 import getFiles from './get-files'
 
+// import custom functions
+import { getApexToken} from './get-tokens'
+
+// export the default function
 export default (client: Client) => {
+    // define an array for all commands
     const commands = {} as {
         [key: string]: any
     }
 
+    // define the suffix of your commands files
     const suffix = '.ts'
 
+    // read all command files
     const commandFiles = getFiles('./commands', suffix)
     console.log('Loaded command from ' + commandFiles)
 
+    // loop through all the found commands
     for(const command of commandFiles)
     {
+        // get one command at the time
         let commandFile = require(command)
+
+        // check if the commandFile has a default function
         if(commandFile.default)
         {
+            // set commandFile to the default export
             commandFile = commandFile.default
         }
 
+        // convert the path
         const split = command.replace(/\\/g, '/').split('/')
+
+        // get the command name
         const commandName = split[split.length - 1].replace(suffix, '')
 
+        // convert the command to lower case
         commands[commandName.toLowerCase()] = commandFile
     }
 
+    // event triggered on new message
     client.on('messageCreate', (message) => {
+        // check if the message is from the bot
         if(message.author.bot || !message.content.startsWith('!'))
         {
             return
         }
 
+        // convert the sent message to a command
         const args = message.content.slice(1).split(/ +/)
         const commandName = args.shift()!.toLowerCase()
 
+        // check if the command exists
         if(!commands[commandName])
         {
             return
@@ -41,7 +63,8 @@ export default (client: Client) => {
 
         try
         {
-            commands[commandName].callback(message, ...args)
+            // try and call the function for the command
+            commands[commandName].callback(message, getApexToken(), ...args)
         }
         catch(error)
         {

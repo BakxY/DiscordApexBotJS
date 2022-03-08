@@ -12,6 +12,7 @@ export function getDiscordToken()
     // read token file
     discord_token = fs.readFileSync(discord_token_file, 'utf-8')
 
+    // check if the token files is empty
     if(discord_token != '')
     {
         // return token
@@ -32,6 +33,7 @@ export function getApexToken()
     // read token file
     apex_token = fs.readFileSync(apex_token_file, 'utf-8')
 
+    // check if the token files is empty
     if(apex_token != '')
     {
         // return token
