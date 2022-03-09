@@ -24,7 +24,7 @@ client.on('ready', () => {
     commandHandler(client)
 
     // print to cli that the bot is ready
-    console.log('Connected as ' + client.user.tag)
+    console.log('[INFO] Bot has connected to discord and is ready')
 
 })
 

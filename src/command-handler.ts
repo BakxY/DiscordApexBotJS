@@ -18,11 +18,13 @@ export default (client: Client) => {
 
     // read all command files
     const commandFiles = getFiles('./commands', suffix)
-    console.log('Loaded command from ' + commandFiles)
 
     // loop through all the found commands
     for(const command of commandFiles)
     {
+        // print command and path to cli
+        console.info('[INFO] Loaded command from ' + command.replace('./', ''))
+
         // get one command at the time
         let commandFile = require(command)
 
@@ -68,7 +70,7 @@ export default (client: Client) => {
         }
         catch(error)
         {
-            console.error(error)
+            console.error('[ERROR]' + error)
         }
     })
 }
