@@ -7,7 +7,7 @@ const attachment = new MessageAttachment('./resources/images/ping.jpg', 'ping.jp
 export default {
     callback: (ctx: Message, ...args: string[]) => {
         ctx.reply({
-            Message: '@everyone',
+            content: '@everyone',
             files: [attachment],
             allowedMentions:{
                 repliedUser: false
