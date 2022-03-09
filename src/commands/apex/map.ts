@@ -1,9 +1,7 @@
 import { Message, MessageEmbed, ReplyMessageOptions, MessageAttachment } from 'discord.js'
 import fetch from 'node-fetch'
 
-
-
-//! NOT TESTED (DISCORD API OUTAGE)
+//* Tested BakxY 09.03.2022 on version 1.3
 
 export default {
     callback: (ctx: Message, APEX_TOKEN: string, ...args: string[]) => {
