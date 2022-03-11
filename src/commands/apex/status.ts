@@ -44,6 +44,10 @@ export default {
                     {
                         message += ':zzz:  '
                     }
+                    else
+                    {
+                        message += ':x:  '
+                    }
                     
                     message += ServerLoc + '\n'
                 }
