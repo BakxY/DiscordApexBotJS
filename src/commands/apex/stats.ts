@@ -3,6 +3,7 @@ import fetch from 'node-fetch'
 import fs from 'fs'
 
 //* Tested BakxY 12.03.2022 on version 1.5 (For all platforms)
+//! Variable declaration is all over the place, needs to be fixed
 
 export default {
     callback: async (ctx: Message, APEX_TOKEN: string, ...args: string[]) => {
