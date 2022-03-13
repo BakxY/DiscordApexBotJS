@@ -1,22 +1,22 @@
 import { Message, ReplyMessageOptions, MessageEmbed } from 'discord.js'
 import fetch from 'node-fetch'
-import fs from 'fs'
 
-//* Tested BakxY 12.03.2022 on version 1.5 (For all platforms)
-//! Variable declaration is all over the place, needs to be fixed
+// array of all platforms
+const Platform = ['PC', 'PS4', 'X1']
+
+//* Tested BakxY 12.03.2022 on version 1.6 (For all platforms)
 
 export default {
     callback: async (ctx: Message, APEX_TOKEN: string, ...args: string[]) => {
         // get message content
-        var ctxMessage = ctx.content
+        var CntMessage = ctx.content
 
         // check if argument was given
-        if(ctxMessage != '!rank')
+        if(CntMessage != '!rank')
         {
             // filter out command to get argument
-            var player = ctxMessage.replace('!rank ', '')
+            var player = CntMessage.replace('!rank ', '')
             var PlayerFound = false
-            var Platform = ['PC', 'PS4', 'X1']
             var PlatformCounter = 0
             
             // check if the play has been found
@@ -35,14 +35,14 @@ export default {
                 // Check if data has Error in it
                 if('Error' in json)
                 {
-                    // Reply with the error message
+                    // API responded with an error
                 }
                 else
                 {
                     // check if the correct player has been found
                     if(json['global']['name'].toLowerCase() == player.toLowerCase())
                     {
-                        // declare global player found status for the event
+                        // set global player found status for the event
                         PlayerFound = true
 
                         // declare variables
@@ -79,22 +79,20 @@ export default {
                         .setColor(0xEF2AEF)
                         .setFooter({text : 'Data from apexlegendsstatus.com'})
                         .setTimestamp()
-
-                        embedVar.setTitle(json['global']['name'] + ' in BR ranked ' + json['global']['rank']['rankedSeason'])
+                        .setTitle(json['global']['name'] + ' in BR ranked ' + json['global']['rank']['rankedSeason'])
+                        .setThumbnail(json['global']['rank']['rankImg'])
 
                         //check for apex predator
                         if('Apex Predator' == json['global']['rank']['rankName'])
                         {
-                            embedVar.addField('Current Rank', json['global']['rank']['rankName'] + ' #' + json['global']['rank']['ladderPosPlatform'].toString() + ' (' + json['global']['platform'].toString() + ')', true)
+                            json['global']['platform'] = json['global']['platform'].replace('X1', 'Xbox 1')
+                            embedVar.addField('Current Rank', json['global']['rank']['rankName'] + ' #' + json['global']['rank']['ladderPosPlatform'].toString() + ' (' + json['global']['platform'] + ')', true)
                         } 
                         else
                         {
                             embedVar.addField('Current Rank', json['global']['rank']['rankName'] + ' #' + json['global']['rank']['rankDiv'].toString(), true)
                         }
                         embedVar.addField('Current RP', json['global']['rank']['rankScore'].toString() + ' RP', true)
-
-                        // set the thumbnail to the rank image
-                        embedVar.setThumbnail(json['global']['rank']['rankImg'])
 
                         // send the embed
                         ctx.reply({
@@ -104,23 +102,26 @@ export default {
                             }
                         } as ReplyMessageOptions);
 
+                        // remove all fields from the embed
                         embedVar.fields = [];
 
+                        // set the new title
                         embedVar.setTitle(json['global']['name'] + ' in arenas ranked ' + json['global']['arena']['rankedSeason'])
+
+                        // set the new thumbnail to the rank image
+                        embedVar.setThumbnail(json['global']['arena']['rankImg'])
 
                         //check for apex predator
                         if('Apex Predator' == json['global']['arena']['rankName'])
                         {
-                            embedVar.addField('Current Rank', json['global']['arena']['rankName'] + ' #' + json['global']['arena']['ladderPosPlatform'].toString() + ' (' + json['global']['platform'].toString() + ')', true)
+                            json['global']['platform'] = json['global']['platform'].replace('X1', 'Xbox 1')
+                            embedVar.addField('Current Rank', json['global']['arena']['rankName'] + ' #' + json['global']['arena']['ladderPosPlatform'].toString() + ' (' + json['global']['platform'] + ')', true)
                         } 
                         else
                         {
                             embedVar.addField('Current Rank', json['global']['arena']['rankName'] + ' #' + json['global']['arena']['rankDiv'].toString(), true)
                         }
                         embedVar.addField('Current AP', json['global']['arena']['rankScore'].toString() + ' AP', true)
-
-                        // set the thumbnail to the rank image
-                        embedVar.setThumbnail(json['global']['arena']['rankImg'])
 
                         // send the embed
                         ctx.reply({
