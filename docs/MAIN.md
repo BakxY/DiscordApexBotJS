@@ -46,6 +46,19 @@ To use the discord API i use the discord.js package in npm. The website for this
 
 ## 6. Lööps
 
-## 7. Logs to CLI
+## 7. Logs
+
+### 7.1 CLI
+
+### 7.2 File
 
 ## 8. Imports
+
+## 9. Issues
+
+## 10. Commit messages
+
+## 11. Pull requests
+
+## 12. Docs
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
