@@ -35,30 +35,42 @@ The apex API that is used in this projects is provided by https://apexlegendssta
 To use the discord API i use the discord.js package in npm. The website for this package can be found [here](https://discord.js.org/). The API key for this API can be placed in `resources/tokens/DISCORD_TOKEN.txt`. The documentation for the package can be found [here](https://discord.js.org/#/docs/discord.js/stable/general/welcome). The GitHub repo for this project can be found [here](https://github.com/discordjs/discord.js).
 
 ## 4. Brackets
+The rules for brackets don't have to be strictly enforced. It is important that a bracket and its positioning has a reason. If a bracket is split up please look that it is correctly indented.
 
 ### 4.1 Curly bracket `{}`
+If a function is defined the curly brackets need to go onto the next line after the declaration of the function. This is the same for any for, while loops and any if's or switches. If a curly bracket is needed like in this case `const getFiles = (dir: string, suffix: string): string[] => {`, it is ok to put the bracket on the same line because it provides a better syntax.
 
 ### 4.2 Normal bracket `()`
+It is preferred not to split any normal brackets, but if it provides cleaner code, it is acceptable. 
 
 ### 4.3 Square brackets `[]`
+It is preferred not to split any square brackets, but if it provides cleaner code, it is acceptable. 
 
 ## 5. Comments
+Any code that is not understandable for a person with knowledge of the programming language in less that 10 second, it needs to be commented. I use the better comments extension for VS code, to provide colored comments. If you need to comment out code for debugging, either remove the code as a whole or comment is back in before a commit or pull request.
 
 ## 6. Lööps
+Loops without a fixed end need to be avoided at all costs. A `while(true)` loop is not allowed at all. For loops are ok if the have a clear exit point. For example the for loops used to loop the API requests.
 
 ## 7. Logs
+Logs provide better insights on what is going on for the user. So if anything important happens it should be logged. This is mostly done for errors and failed commands.
 
 ### 7.1 CLI
+When logging to the cli use `consol.XXXXX()`. The `XXXXX` can be replaced with some keywords, you can use `log`, `error`, `warn` and some more. The log message should be short and understandable for the regular user.
 
 ### 7.2 File
+File logging is not yet implemented.
 
 ## 8. Imports
 
 ## 9. Issues
+Issues are very simple to handle and don't have any special rules. Just follow the template given.
 
 ## 10. Commit messages
+Any commit messages should represent the content of the commit. Don't commit all changes at once, if you worked on multiple projects. Make a commit for each project. 
 
 ## 11. Pull requests
+A pull request title need to summarize all the changes of a branch to main. The message text should list all changes and/or features. If the project had very difficult aspects, add any sources that might help maintain the code.
 
 ## 12. Docs
 https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
