@@ -62,6 +62,7 @@ When logging to the cli use `consol.XXXXX()`. The `XXXXX` can be replaced with s
 File logging is not yet implemented.
 
 ## 8. Imports
+Any imports that are not clear where they are used please specify with a comment. If any imports are no longer nectary please remove them.
 
 ## 9. Issues
 Issues are very simple to handle and don't have any special rules. Just follow the template given.
@@ -72,5 +73,5 @@ Any commit messages should represent the content of the commit. Don't commit all
 ## 11. Pull requests
 A pull request title need to summarize all the changes of a branch to main. The message text should list all changes and/or features. If the project had very difficult aspects, add any sources that might help maintain the code.
 
-## 12. Docs
-https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
+## 12. Test
+Before you try to merge anything test everything in you worked by starting the bot and testing the commands. Incase of a command that can get different data for some platforms, test each platform. If a test is complete please use `//* Tested *Your name* *Date* on version X.X`. If you commit to a branch that you are currently working on and your changes don't work yet, please use `//!` to signal it.
