@@ -1,6 +1,6 @@
 import { Message, MessageEmbed, ReplyMessageOptions } from 'discord.js'
 
-//* Tested BakxY 10.03.2022 on version 1.3
+//! Currently only command with dev workes, need to add variation
 
 const message =('**About the bot**\n' +
                 'This is a discord bot with integration for Apex Legends. It can show the current map, stats, status of servers and ranks of players. The bot was created out of boredom during the COVID-19 pandemic.\n' +
