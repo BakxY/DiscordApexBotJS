@@ -11,11 +11,13 @@ const message =('**About the bot**\n' +
 
 export default {
     callback: (ctx: Message, APEX_TOKEN: string, ...args: string[]) => {
+        // setup embed
         const embedVar = new MessageEmbed()
         .setColor(0xEF2AEF)
         .setDescription(message)
         .setTimestamp()
 
+        // send embed without a reply ping
         ctx.reply({
             embeds: [embedVar], 
             allowedMentions:{
