@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, ReplyMessageOptions } from 'discord.js'
+import { Message, ReplyMessageOptions } from 'discord.js'
 
 //* Tested BakxY 21.03.2022 on version 1.9
 
