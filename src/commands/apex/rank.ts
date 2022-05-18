@@ -9,61 +9,92 @@ const Platform = ['PC', 'PS4', 'X1']
 export default {
     callback: async (ctx: Message, APEX_TOKEN: string, ...args: string[]) => {
         // get message content
-        var CntMessage = ctx.content
+        var ctxMessage = ctx.content
 
         // check if argument was given
-        if(CntMessage != '!rank')
+        if(ctxMessage != '!rank')
         {
             // filter out command to get argument
-            var player = CntMessage.replace('!rank ', '')
-            var PlayerFound = false
-            var PlatformCounter = 0
+            var player = ctxMessage.replace('!rank ', '')
+            var Platform = 'PC'
             
-            // check if the play has been found
-            while(PlayerFound == false)
-            {
-                // check if all platforms have been checked
-                if(PlatformCounter >= 3)
-                {
-                    break
-                }
 
-                // get data from API
-                var res = await fetch('https://api.mozambiquehe.re/bridge?version=5&platform=' + Platform[PlatformCounter] + '&player=' + player + '&auth=' + APEX_TOKEN)
+            // get data from API
+            var res = await fetch('https://api.mozambiquehe.re/bridge?version=5&platform=' + Platform + '&player=' + player + '&auth=' + APEX_TOKEN)
+            if(res.status == 400)
+            {
+                ctx.reply({
+                    content: 'Try again in a few minutes',
+                    allowedMentions:{
+                        repliedUser: false
+                    }
+                } as ReplyMessageOptions);
+            }
+            if(res.status == 403)
+            {
+                ctx.reply({
+                    content: 'Bot owner fucked up with the keys',
+                    allowedMentions:{
+                        repliedUser: false
+                    }
+                } as ReplyMessageOptions);
+            }
+            if(res.status == 404)
+            {
+                ctx.reply({
+                    content: 'Player not found',
+                    allowedMentions:{
+                        repliedUser: false
+                    }
+                } as ReplyMessageOptions);
+            }
+            if(res.status == 405)
+            {
+                ctx.reply({
+                    content: 'API error',
+                    allowedMentions:{
+                        repliedUser: false
+                    }
+                } as ReplyMessageOptions);
+            }
+            if(res.status == 429)
+            {
+                ctx.reply({
+                    content: 'Reached your rate limit, try again in a few minutes',
+                    allowedMentions:{
+                        repliedUser: false
+                    }
+                } as ReplyMessageOptions);
+            }
+            if(res.status == 500)
+            {
+                ctx.reply({
+                    content: 'API brok, internal error',
+                    allowedMentions:{
+                        repliedUser: false
+                    }
+                } as ReplyMessageOptions);
+            }
+            if(res.status == 200)
+            {
                 var json = await res.json()
 
                 // Check if data has Error in it
                 if('Error' in json)
                 {
-                    // API responded with an error
+                    // Unknown error
+                    ctx.reply({
+                        content: 'Unknown error',
+                        allowedMentions:{
+                            repliedUser: false
+                        }
+                    } as ReplyMessageOptions);
                 }
                 else
                 {
                     // check if the correct player has been found
                     if(json['global']['name'].toLowerCase() == player.toLowerCase())
                     {
-                        // set global player found status for the event
-                        PlayerFound = true
-
-                        // declare variables
-                        var CounterForFor = 0
-                        var TrackerName = ['no data', 'no data', 'no data']
-                        var TrackerValue = ['no data', 'no data', 'no data']
-
-                        // get trackers
-                        for(var name in json['legends']['selected']['data'])
-                        {
-                            if('name' in json['legends']['selected']['data'][CounterForFor])
-                                // store tracker name
-                                TrackerName[CounterForFor] = json['legends']['selected']['data'][CounterForFor]['name']
-                                // remove special event text from special event badges and capitalize
-                                TrackerName[CounterForFor] = TrackerName[CounterForFor].replace('Special event ', '')
-                                TrackerName[CounterForFor] = TrackerName[CounterForFor].charAt(0).toUpperCase() + TrackerName[CounterForFor].slice(1).toLowerCase()
-                                // store value of tracker
-                                TrackerValue[CounterForFor] = json['legends']['selected']['data'][CounterForFor]['value']
-                            CounterForFor++
-                        }
-
                         // edit battle royale rank text
                         json['global']['rank']['rankedSeason']  = json['global']['rank']['rankedSeason'].replace('season', 'Season ')
                         json['global']['rank']['rankedSeason']  = json['global']['rank']['rankedSeason'].replace('_split_', '')
@@ -77,15 +108,14 @@ export default {
                         // Declare a new embed
                         var embedVar = new MessageEmbed()
                         .setColor(0xEF2AEF)
-                        .setFooter({text : 'Data from apexlegendsstatus.com'})
-                        .setTimestamp()
                         .setTitle(json['global']['name'] + ' in BR ranked ' + json['global']['rank']['rankedSeason'])
                         .setThumbnail(json['global']['rank']['rankImg'])
+                        .setFooter({text : 'Data from apexlegendsstatus.com'})
+                        .setTimestamp()
 
                         //check for apex predator
                         if('Apex Predator' == json['global']['rank']['rankName'])
                         {
-                            json['global']['platform'] = json['global']['platform'].replace('X1', 'Xbox 1')
                             embedVar.addField('Current Rank', json['global']['rank']['rankName'] + ' #' + json['global']['rank']['ladderPosPlatform'].toString() + ' (' + json['global']['platform'] + ')', true)
                         } 
                         else
@@ -114,7 +144,6 @@ export default {
                         //check for apex predator
                         if('Apex Predator' == json['global']['arena']['rankName'])
                         {
-                            json['global']['platform'] = json['global']['platform'].replace('X1', 'Xbox 1')
                             embedVar.addField('Current Rank', json['global']['arena']['rankName'] + ' #' + json['global']['arena']['ladderPosPlatform'].toString() + ' (' + json['global']['platform'] + ')', true)
                         } 
                         else
@@ -132,28 +161,13 @@ export default {
                         } as ReplyMessageOptions);
                     }
                 }
-
-                // increase the counter for checking each platform
-                PlatformCounter++
-            }
-            
+            } 
         }
         else
         {
             // no argument was provided
             ctx.reply({
                 content: 'No player specified',
-                allowedMentions:{
-                    repliedUser: false
-                }
-            } as ReplyMessageOptions);
-        }
-
-        // check if no valid answer was give and all platforms have been checked
-        if(PlayerFound == false && PlatformCounter >= 3)
-        {
-            ctx.reply({
-                content: 'Player not found',
                 allowedMentions:{
                     repliedUser: false
                 }
