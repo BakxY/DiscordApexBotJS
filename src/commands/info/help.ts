@@ -1,6 +1,6 @@
 import { Message, ReplyMessageOptions } from 'discord.js'
 
-//* Tested BakxY 21.03.2022 on version 1.9
+//* Tested BakxY 18.05.2022 on version 1.9
 
 const message = 
 ('```This a bot for discord, that can display stats, rankings and current maps for apex legends.\n' + 
@@ -11,10 +11,7 @@ const message =
 '  pingall Pings all user in a discord\n' +
 '  rank    Shows ranks of a player\n' +
 '  stats   Shows stats of a player\n' +
-'  status  Shows the status of all servers\n' +
-'\n' +
-'Type !help command for more info on a command.\n' +
-'You can also type !help category for more info on a category.```')
+'  status  Shows the status of all servers\n```')
 
 export default {
     callback: (ctx: Message, APEX_TOKEN: string, ...args: string[]) => {
