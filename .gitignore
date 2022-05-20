@@ -1,15 +1,3 @@
-dist/command-handler.js
-dist/command-handler.js.map
-dist/get-files.js
-dist/get-files.js.map
-dist/get-tokens.js
-dist/get-tokens.js.map
-dist/main.js
-dist/main.js.map
-dist/commands/pingall.js
-dist/commands/pingall.js.map
-dist/commands/apex/map.js
-dist/commands/apex/map.js.map
-src/resources/tokens/APEX_TOKEN.txt
-src/resources/tokens/DISCORD_TOKEN.txt
+nodejs/src/resources/tokens/APEX_TOKEN.txt
+nodejs/src/resources/tokens/DISCORD_TOKEN.txt
 notes.txt

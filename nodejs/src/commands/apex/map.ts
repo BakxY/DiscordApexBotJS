@@ -1,7 +1,7 @@
 import { Message, MessageEmbed, ReplyMessageOptions, MessageAttachment } from 'discord.js'
 import fetch from 'node-fetch'
 
-//* Tested BakxY 09.03.2022 on version 1.3
+//* Tested BakxY 20.05.2022 on version 1.12
 
 export default {
     callback: (ctx: Message, APEX_TOKEN: string, ...args: string[]) => {
@@ -50,6 +50,10 @@ export default {
             else if(json['battle_royale']['current']['map'] == 'Storm Point')
             {
                 ImageAttachment = new MessageAttachment('./resources/maps/storm-point.jpg', 'MapImage.jpg');
+            }
+            else if(json['battle_royale']['current']['map'] == "World's Edge")
+            {
+                ImageAttachment = new MessageAttachment('./resources/maps/worlds-edge.jpg', 'MapImage.jpg');
             }
             else
             {
