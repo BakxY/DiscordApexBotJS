@@ -1,6 +1,5 @@
 import { Message, ReplyMessageOptions, MessageEmbed } from 'discord.js'
 import fetch from 'node-fetch'
-import fs from 'fs'
 
 //* Tested BakxY 12.03.2022 on version 1.5 (For all platforms)
 //! Variable declaration is all over the place, needs to be fixed
@@ -14,9 +13,47 @@ export default {
         if(ctxMessage != '!stats')
         {
             // filter out command to get argument
-            var player = ctxMessage.replace('!stats ', '')
-            var Platform = 'PC'
-            
+            var playerAndPlatform = ctxMessage.replace('!stats ', '')
+
+            if(playerAndPlatform.includes(' PC'))
+            {
+                // get platform
+                var Platform = 'PC'
+
+                // get player
+                var player = playerAndPlatform.replace(' PC', '')
+            }
+            else if(playerAndPlatform.includes(' PS4'))
+            {
+                // get platform
+                var Platform = 'PS4'
+
+                // get player
+                var player = playerAndPlatform.replace(' PS4', '')
+            }
+            else if(playerAndPlatform.includes(' X1'))
+            {
+                // get platform
+                var Platform = 'X1'
+
+                // get player
+                var player = playerAndPlatform.replace(' X1', '')
+            }
+            else
+            {
+                // get platform
+                var Platform = 'PC'
+
+                // get player
+                var player = playerAndPlatform
+
+                ctx.reply({
+                    content: 'No platform specified, defaulting to PC',
+                    allowedMentions:{
+                        repliedUser: false
+                    }
+                } as ReplyMessageOptions);
+            }
 
             // get data from API
             var res = await fetch('https://api.mozambiquehe.re/bridge?version=5&platform=' + Platform + '&player=' + player + '&auth=' + APEX_TOKEN)
