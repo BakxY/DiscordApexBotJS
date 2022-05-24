@@ -1,7 +1,7 @@
 import { Message, ReplyMessageOptions, MessageEmbed } from 'discord.js'
 import fetch from 'node-fetch'
 
-//* Tested BakxY 12.03.2022 on version 1.5 (For all platforms)
+//* Tested BakxY 24.05.2022 on version 1.15 (For all platforms)
 //! Variable declaration is all over the place, needs to be fixed
 
 export default {
