@@ -1,8 +1,7 @@
 import { Message, ReplyMessageOptions, MessageEmbed } from 'discord.js'
 import fetch from 'node-fetch'
-import fs from 'fs'
 
-//* Tested BakxY 12.03.2022 on version 1.5 (For all platforms)
+//* Tested BakxY 24.05.2022 on version 1.15 (For all platforms)
 //! Variable declaration is all over the place, needs to be fixed
 
 export default {
@@ -14,9 +13,47 @@ export default {
         if(ctxMessage != '!stats')
         {
             // filter out command to get argument
-            var player = ctxMessage.replace('!stats ', '')
-            var Platform = 'PC'
-            
+            var playerAndPlatform = ctxMessage.replace('!stats ', '')
+
+            if(playerAndPlatform.includes(' PC'))
+            {
+                // get platform
+                var Platform = 'PC'
+
+                // get player
+                var player = playerAndPlatform.replace(' PC', '')
+            }
+            else if(playerAndPlatform.includes(' PS4'))
+            {
+                // get platform
+                var Platform = 'PS4'
+
+                // get player
+                var player = playerAndPlatform.replace(' PS4', '')
+            }
+            else if(playerAndPlatform.includes(' X1'))
+            {
+                // get platform
+                var Platform = 'X1'
+
+                // get player
+                var player = playerAndPlatform.replace(' X1', '')
+            }
+            else
+            {
+                // get platform
+                var Platform = 'PC'
+
+                // get player
+                var player = playerAndPlatform
+
+                ctx.reply({
+                    content: 'No platform specified, defaulting to PC',
+                    allowedMentions:{
+                        repliedUser: false
+                    }
+                } as ReplyMessageOptions);
+            }
 
             // get data from API
             var res = await fetch('https://api.mozambiquehe.re/bridge?version=5&platform=' + Platform + '&player=' + player + '&auth=' + APEX_TOKEN)
@@ -91,63 +128,59 @@ export default {
                 }
                 else
                 {
-                    // check if the correct player has been found
-                    if(json['global']['name'].toLowerCase() == player.toLowerCase())
+                    // declare variables
+                    var CounterForFor = 0
+                    var TrackerName = ['no data', 'no data', 'no data']
+                    var TrackerValue = ['no data', 'no data', 'no data']
+
+                    // get trackers
+                    for(var name in json['legends']['selected']['data'])
                     {
-                        // declare variables
-                        var CounterForFor = 0
-                        var TrackerName = ['no data', 'no data', 'no data']
-                        var TrackerValue = ['no data', 'no data', 'no data']
-
-                        // get trackers
-                        for(var name in json['legends']['selected']['data'])
-                        {
-                            if('name' in json['legends']['selected']['data'][CounterForFor])
-                                // store tracker name
-                                TrackerName[CounterForFor] = json['legends']['selected']['data'][CounterForFor]['name']
-                                // remove special event text from special event badges and capitalize
-                                TrackerName[CounterForFor] = TrackerName[CounterForFor].replace('Special event ', '')
-                                TrackerName[CounterForFor] = TrackerName[CounterForFor].charAt(0).toUpperCase() + TrackerName[CounterForFor].slice(1).toLowerCase()
-                                // store value of tracker
-                                TrackerValue[CounterForFor] = json['legends']['selected']['data'][CounterForFor]['value']
-                            CounterForFor++
-                        }
-
-                        // Declare a new embed
-                        var embedVar = new MessageEmbed()
-                        .setColor(0xEF2AEF)
-                        .setTitle(json['global']['name'] + ' as ' + json['legends']['selected']['LegendName'])
-                        .setImage(json['legends']['selected']['ImgAssets']['banner'])
-                        .setThumbnail(json['legends']['selected']['ImgAssets']['icon'])
-                        .setFooter({text : 'Data from apexlegendsstatus.com'})
-                        .setTimestamp()
-
-                        // display some standard stats
-                        embedVar.addField('Level', json['global']['level'].toString(), true)
-                        embedVar.addField('BP-Level', json['global']['battlepass']['level'], true)
-                        embedVar.addField('_ _', '_ _', false)
-                        embedVar.addField('Status', json['realtime']['currentStateAsText'], true)
-                        embedVar.addField('Platform', json['global']['platform'], true)
-
-                        // spaces
-                        embedVar.addField('_ _', '_ _', false)
-                        embedVar.addField('Trackers:', '_ _', false)
-
-                        // display current trackers
-                        embedVar.addField(TrackerName[0], TrackerValue[0].toString(), true)
-                        embedVar.addField(TrackerName[1], TrackerValue[1].toString(), true)
-                        embedVar.addField(TrackerName[2], TrackerValue[2].toString(), true)
-
-                        // send the embed
-                        ctx.reply({
-                            embeds: [embedVar],
-                            allowedMentions:{
-                                repliedUser: false
-                            }
-                        } as ReplyMessageOptions);
+                        if('name' in json['legends']['selected']['data'][CounterForFor])
+                            // store tracker name
+                            TrackerName[CounterForFor] = json['legends']['selected']['data'][CounterForFor]['name']
+                            // remove special event text from special event badges and capitalize
+                            TrackerName[CounterForFor] = TrackerName[CounterForFor].replace('Special event ', '')
+                            TrackerName[CounterForFor] = TrackerName[CounterForFor].charAt(0).toUpperCase() + TrackerName[CounterForFor].slice(1).toLowerCase()
+                            // store value of tracker
+                            TrackerValue[CounterForFor] = json['legends']['selected']['data'][CounterForFor]['value']
+                        CounterForFor++
                     }
+
+                    // Declare a new embed
+                    var embedVar = new MessageEmbed()
+                    .setColor(0xEF2AEF)
+                    .setTitle(json['global']['name'] + ' as ' + json['legends']['selected']['LegendName'])
+                    .setImage(json['legends']['selected']['ImgAssets']['banner'])
+                    .setThumbnail(json['legends']['selected']['ImgAssets']['icon'])
+                    .setFooter({text : 'Data from apexlegendsstatus.com'})
+                    .setTimestamp()
+
+                    // display some standard stats
+                    embedVar.addField('Level', json['global']['level'].toString(), true)
+                    embedVar.addField('BP-Level', json['global']['battlepass']['level'], true)
+                    embedVar.addField('_ _', '_ _', false)
+                    embedVar.addField('Status', json['realtime']['currentStateAsText'], true)
+                    embedVar.addField('Platform', json['global']['platform'], true)
+
+                    // spaces
+                    embedVar.addField('_ _', '_ _', false)
+                    embedVar.addField('Trackers:', '_ _', false)
+
+                    // display current trackers
+                    embedVar.addField(TrackerName[0], TrackerValue[0].toString(), true)
+                    embedVar.addField(TrackerName[1], TrackerValue[1].toString(), true)
+                    embedVar.addField(TrackerName[2], TrackerValue[2].toString(), true)
+
+                    // send the embed
+                    ctx.reply({
+                        embeds: [embedVar],
+                        allowedMentions:{
+                            repliedUser: false
+                        }
+                    } as ReplyMessageOptions);
                 }
-            } 
+            }
         }
         else
         {
