@@ -32,14 +32,14 @@ client.on('ready', () => {
 // event triggered when a user joins a channel
 client.on("voiceStateUpdate", async function(oldMember, newMember){
 
-    var TimeData = [];
+    var TimeData = require('./resources/data/times');
 
-    await fs.readFile('resources/data/times.json', function (err, data) {
-        if (err) {
-           return console.error('[ ERROR ] Error while reading JSON file: ' + err);
-        }
-        TimeData = JSON.parse(data.toString());
-    });
+    //await fs.readFile('resources/data/times.json', function (err, data) {
+    //    if (err) {
+    //       return console.error('[ ERROR ] Error while reading JSON file: ' + err);
+    //    }
+    //    TimeData = JSON.parse(data.);
+    //});
 
     var userExistes = false
 
@@ -48,8 +48,9 @@ client.on("voiceStateUpdate", async function(oldMember, newMember){
         // user has joined or switched a voice channel
         for(var id in TimeData)
         {
-            if(TimeData[id] == newMember.member.user.id)
+            if(id == newMember.member.user.id)
             {
+                console.log(id)
                 TimeData[id]['Username'] = newMember.member.user.username
                 TimeData[id]['TimeJoined'] = new Date().getTime()
                 TimeData[id]['Online'] = true
@@ -58,15 +59,11 @@ client.on("voiceStateUpdate", async function(oldMember, newMember){
         }
         if(userExistes == false)
         {
-            TimeData[newMember.member.user.id] = [{Username: newMember.member.user.username,
+            TimeData[newMember.member.user.id] = {Username: newMember.member.user.username,
                                                       TimeJoined: new Date().getTime(),
                                                       Online: true,
                                                       TotalTime: 0
-                                                    }];
-            //TimeData[newMember.member.user.id]['Username'] = newMember.member.user.username
-            //TimeData[newMember.member.user.id]['TimeJoined'] = new Date().getTime()
-            //TimeData[newMember.member.user.id]['Online'] = true
-            //TimeData[newMember.member.user.id]['TotalTime'] = 0
+                                                    };
         }
     }
     else
@@ -92,12 +89,10 @@ client.on("voiceStateUpdate", async function(oldMember, newMember){
         }
     }
 
-    console.log(TimeData)
-
-    fs.writeFile('resources/data/times.json', JSON.stringify(TimeData), function(err) {
+    fs.writeFile("resources/data/times.json", JSON.stringify(TimeData), function(err) {
         if (err) {
-            return console.error('[ ERROR ] Error while writing JSON file: ' + err);
-         }
+            console.log(err);
+        }
     });
 });
 
