@@ -2,7 +2,7 @@ import { Message, MessageEmbed, ReplyMessageOptions } from 'discord.js'
 import { parse } from 'dotenv';
 import fetch from 'node-fetch'
 
-//* Tested BakxY 10.03.2022 on version 1.3
+//* Tested BakxY 28.05.2022 on version 1.16
 
 export default {
     callback: async (ctx: Message, APEX_TOKEN: string, ...args: string[]) => {
@@ -62,43 +62,58 @@ export default {
         {
             var json = await res.json()
 
-            var embedVar = new MessageEmbed()
+            for(var y = 0; y < 2; y++)
+            {
+                for(var i = 0; i < 2; i++)
+                {
+                    var embedVar = new MessageEmbed()
                     .setColor(0xEF2AEF)
-                    .setTitle(json[0]['bundleType'].charAt(0).toUpperCase() + json[0]['bundleType'].slice(1) + ' item ' + 'no. 1')
-                    .setThumbnail(json[0]['bundleContent'][0]['itemType']['asset'])
+                    .setTitle(json[y]['bundleType'].charAt(0).toUpperCase() + json[y]['bundleType'].slice(1) + ' item ' + 'no. ' + (i + 1))
+                    .setThumbnail(json[y]['bundleContent'][i]['itemType']['asset'])
                     .setFooter({text : 'Data from apexlegendsstatus.com'})
                     .setTimestamp()
 
-            embedVar.addField('Name: ', json[0]['bundleContent'][0]['itemType']['rarity'].replace('_', ' ') + ' ' + json[0]['bundleContent'][0]['itemType']['name'].replace('_', ' '), true)
-            embedVar.addField('Cost: ', json[0]['bundleContent'][0]['cost'].toString(), true)
+                    embedVar.addField('Name: ', json[y]['bundleContent'][i]['itemType']['name'].replaceAll('_', ' ').charAt(0).toUpperCase() + json[y]['bundleContent'][i]['itemType']['name'].replaceAll('_', ' ').slice(1), true)
+                    embedVar.addField('Cost: ', json[y]['bundleContent'][i]['cost'].toString(), true)
 
-            var timeUntilEnd = new Date(json[0]['end'])
-            var unixStartTime = new Date()
-            var timeDiffrence = timeUntilEnd.getTime() - unixStartTime.getTime() / 1000 - 10600
+                    var timeUntilEnd = new Date(json[y]['end'] * 1000)
+                    var unixStartTime = new Date()
 
-            console.log((json[0]['end'] - json[0]['start'])/60/60)
+                    var timeLeft = ''
 
-            console.log(timeUntilEnd.getTime())
-            console.log(unixStartTime.getTime() / 1000)
-            console.log(timeDiffrence)
+                    if(7 - unixStartTime.getDay() - timeUntilEnd.getDay() > 0)
+                    {
+                        timeLeft += 7 - timeUntilEnd.getDay() - unixStartTime.getDay() + ' days '
+                    }
+                    if(timeUntilEnd.getHours() - unixStartTime.getHours() - 3 > 0)
+                    {
+                        timeLeft += (timeUntilEnd.getHours() - unixStartTime.getHours() - 3) + ' hours '
+                    }
+                    if(unixStartTime.getMinutes() - timeUntilEnd.getMinutes() > 0)
+                    {
+                        timeLeft += 60 - (unixStartTime.getMinutes() - timeUntilEnd.getMinutes()) + ' min '
+                    }
 
-            var timeLeft = ''
+                    embedVar.addField('Until: ', timeLeft, true)
 
-            if(timeDiffrence / 60 / 60 != 0)
-            {
-                timeLeft = (timeDiffrence / 60 / 60).toFixed() + ' h'
-                timeDiffrence -= parseInt((timeDiffrence / 60 / 60).toFixed()) * 60 * 60
-                console.log(timeDiffrence)
-            }
-
-            embedVar.addField('Until: ', timeLeft, true)
-
-            ctx.reply({
-                embeds: [embedVar],
-                allowedMentions:{
-                    repliedUser: false
+                    if(y == 0 && i == 0)
+                    {
+                        ctx.reply({
+                            embeds: [embedVar],
+                            allowedMentions:{
+                                repliedUser: false
+                            }
+                        } as ReplyMessageOptions);
+                    }
+                    else
+                    {
+                        ctx.channel.send({
+                            embeds: [embedVar],
+                        } as ReplyMessageOptions);
+                    }
+                    
                 }
-            } as ReplyMessageOptions);
+            }
         }
 
 
