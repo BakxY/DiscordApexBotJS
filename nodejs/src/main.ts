@@ -50,7 +50,6 @@ client.on("voiceStateUpdate", async function(oldMember, newMember){
         {
             if(id == newMember.member.user.id)
             {
-                console.log(id)
                 TimeData[id]['Username'] = newMember.member.user.username
                 TimeData[id]['TimeJoined'] = new Date().getTime()
                 TimeData[id]['Online'] = true
@@ -69,7 +68,7 @@ client.on("voiceStateUpdate", async function(oldMember, newMember){
     else
     {
         // user has left a voice channel
-        if(TimeData[oldMember.member.user.id] != undefined || TimeData[oldMember.member.user.id] != null)
+        if(TimeData[oldMember.member.user.id] != undefined && TimeData[oldMember.member.user.id] != null)
         {
             if(TimeData[oldMember.member.user.id]['Online'] == true)
             {
