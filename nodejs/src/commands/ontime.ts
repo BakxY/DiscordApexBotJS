@@ -47,28 +47,29 @@ export default {
         {
             if(TimeLeaderboard[i] != undefined)
             {
+                var OnTime = TimeData[TimeToUser[i - 1]['id']]['TotalTime'] / 1000
+                
                 message += i + '. ' + TimeData[TimeToUser[i - 1]['id']]['Username'] + ' - '
-                if(TimeData[TimeToUser[i - 1]['id']]['TotalTime'] / 60 / 60 > 1)
+
+                if(OnTime / 60 / 60 > 1)
                 {
-                    message += Math.trunc(TimeData[TimeToUser[i - 1]['id']]['TotalTime'] / 60 / 60) + ' hours '
-                    TimeData[TimeToUser[i - 1]['id']]['TotalTime'] -= Math.trunc(TimeData[TimeToUser[i - 1]['id']]['TotalTime'] / 60 / 60) * 60 * 60
+                    message += Math.trunc(OnTime / 60 / 60) + ' hours '
+                    OnTime -= Math.trunc(OnTime / 60 / 60) * 60 * 60
                 }
 
-                if(TimeData[TimeToUser[i - 1]['id']]['TotalTime'] / 60  > 1)
+                if(OnTime / 60  > 1)
                 {
-                    message += Math.trunc(TimeData[TimeToUser[i - 1]['id']]['TotalTime'] / 60 ) + ' min '
-                    TimeData[TimeToUser[i - 1]['id']]['TotalTime'] -= Math.trunc(TimeData[TimeToUser[i - 1]['id']]['TotalTime'] / 60 ) * 60 
+                    message += Math.trunc(OnTime / 60 ) + ' min '
+                    OnTime -= Math.trunc(OnTime / 60 ) * 60 
                 }
 
-                if(TimeData[TimeToUser[i - 1]['id']]['TotalTime'] > 1)
+                if(OnTime > 1)
                 {
-                    message += Math.trunc(TimeData[TimeToUser[i - 1]['id']]['TotalTime']) + ' sec'
-                    TimeData[TimeToUser[i - 1]['id']]['TotalTime'] -= Math.trunc(TimeData[TimeToUser[i - 1]['id']]['TotalTime'])
+                    message += Math.trunc(OnTime) + ' sec'
+                    OnTime -= Math.trunc(OnTime)
                 }
                 
                 message += '\n'
-
-                console.log(TimeData[TimeToUser[i - 1]['id']]['TotalTime'])
             }
         }
 
