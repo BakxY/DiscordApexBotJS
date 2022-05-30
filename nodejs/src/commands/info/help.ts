@@ -10,8 +10,9 @@ const message =
 '  map     Shows the current map rotation\n' +
 '  pingall Pings all user in a discord\n' +
 '  rank    Shows ranks of a player\n' +
-'  stats   Shows stats of a player\n' +
-'  status  Shows the status of all servers\n```')
+'  stats   Shows stats of a player (If no specific platform is provided, will default to PC)\n' +
+'  status  Shows the status of all servers\n' +
+'  ontime  Shows a leaderboard for the users that have spent the most time in a voice chat\n```')
 
 export default {
     callback: (ctx: Message, APEX_TOKEN: string, ...args: string[]) => {
