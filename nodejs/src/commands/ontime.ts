@@ -17,15 +17,18 @@ export default {
         // put all the times and users in the array
         for(var id in TimeData)
         {
-            if(TimeData[id]['TotalTime'] > true)
+            if(TimeData[id]['TotalTime'] != 0 && TimeData[id]['Online'] == false)
             {
                 TimeToUser.push({
                     id: id,
                     time: TimeData[id]['TotalTime']
                 })
             }
+            else if(TimeData[id]['Online'] == true)
+            {
+                
+            }
         }
-
         // sort the array by time
         TimeToUser.sort(function(a, b) {
             return b['time']-a['time']
