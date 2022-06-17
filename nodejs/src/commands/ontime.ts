@@ -17,17 +17,10 @@ export default {
         // put all the times and users in the array
         for(var id in TimeData)
         {
-            if(TimeData[id]['TotalTime'] != 0 && TimeData[id]['Online'] == false)
-            {
-                TimeToUser.push({
-                    id: id,
-                    time: TimeData[id]['TotalTime']
-                })
-            }
-            else if(TimeData[id]['Online'] == true)
-            {
-                
-            }
+            TimeToUser.push({
+                id: id,
+                time: TimeData[id]['TotalTime']
+            })
         }
         // sort the array by time
         TimeToUser.sort(function(a, b) {
@@ -50,9 +43,17 @@ export default {
         {
             if(TimeLeaderboard[i] != undefined)
             {
-                var OnTime = TimeData[TimeToUser[i - 1]['id']]['TotalTime'] / 1000
+                if(TimeData[TimeToUser[i - 1]['id']]['Online'] == false)
+                {
+                    var OnTime = TimeData[TimeToUser[i - 1]['id']]['TotalTime'] / 1000
+                }
+                else
+                {
+                    var OnTime = (TimeData[TimeToUser[i - 1]['id']]['TotalTime'] + (new Date().getTime() - TimeData[TimeToUser[i - 1]['id']]['TimeJoined'])) / 1000
+                }
                 
-                message += i + '. ' + TimeData[TimeToUser[i - 1]['id']]['Username'] + ' - '
+                
+                message += i + '. <@' + TimeToUser[i - 1]['id'] + '> - '
 
                 if(OnTime / 60 / 60 > 1)
                 {
