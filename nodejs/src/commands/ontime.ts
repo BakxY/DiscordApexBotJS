@@ -1,7 +1,5 @@
 import { Message, ReplyMessageOptions, MessageAttachment, MessageEmbed} from 'discord.js'
 
-const attachment = new MessageAttachment('./resources/images/ping.jpg', 'ping.jpg');
-
 //* Tested BakxY 28.05.2022 on version 1.17.2
 
 export default {
@@ -9,7 +7,18 @@ export default {
 
         // get all the data and create the leaderboard
         var TimeData = require('./../resources/data/times')
-        var TimeLeaderboard = { '1': undefined, '2': undefined, '3': undefined, '4': undefined, '5': undefined, '6': undefined, '7': undefined, '8': undefined, '9': undefined, '10': undefined }
+        var TimeLeaderboard = { 
+            '1': undefined, 
+            '2': undefined, 
+            '3': undefined, 
+            '4': undefined, 
+            '5': undefined, 
+            '6': undefined, 
+            '7': undefined, 
+            '8': undefined, 
+            '9': undefined, 
+            '10': undefined 
+        }
 
         // create an array to point times to users
         var TimeToUser = []
@@ -17,15 +26,11 @@ export default {
         // put all the times and users in the array
         for(var id in TimeData)
         {
-            if(TimeData[id]['TotalTime'] > true)
-            {
-                TimeToUser.push({
-                    id: id,
-                    time: TimeData[id]['TotalTime']
-                })
-            }
+            TimeToUser.push({
+                id: id,
+                time: TimeData[id]['TotalTime']
+            })
         }
-
         // sort the array by time
         TimeToUser.sort(function(a, b) {
             return b['time']-a['time']
@@ -47,10 +52,20 @@ export default {
         {
             if(TimeLeaderboard[i] != undefined)
             {
-                var OnTime = TimeData[TimeToUser[i - 1]['id']]['TotalTime'] / 1000
+                // check if the user is online
+                if(TimeData[TimeToUser[i - 1]['id']]['Online'] == false)
+                {
+                    var OnTime = TimeData[TimeToUser[i - 1]['id']]['TotalTime'] / 1000
+                }
+                else
+                {
+                    var OnTime = (TimeData[TimeToUser[i - 1]['id']]['TotalTime'] + (new Date().getTime() - TimeData[TimeToUser[i - 1]['id']]['TimeJoined'])) / 1000
+                }
                 
-                message += i + '. ' + TimeData[TimeToUser[i - 1]['id']]['Username'] + ' - '
+                // Add user ping to message
+                message += i + '. <@' + TimeToUser[i - 1]['id'] + '> - '
 
+                // Add time to message
                 if(OnTime / 60 / 60 > 1)
                 {
                     message += Math.trunc(OnTime / 60 / 60) + ' hours '
@@ -73,13 +88,15 @@ export default {
             }
         }
 
-
+        // create the message
         var embedVar = new MessageEmbed()
                     .setColor(0xEF2AEF)
                     .setTitle('Leaderboard')
+                    .setThumbnail(ctx.guild.iconURL())
                     .setDescription(message)
                     .setTimestamp()
 
+        // send the message
         ctx.reply({
             embeds: [embedVar], 
             allowedMentions:{
