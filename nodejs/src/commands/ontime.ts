@@ -1,6 +1,6 @@
 import { Message, ReplyMessageOptions, MessageAttachment, MessageEmbed} from 'discord.js'
 
-//* Tested BakxY 28.05.2022 on version 1.17.2
+//* Tested BakxY 19.06.2022 on version 1.22
 
 export default {
     callback: async (ctx: Message, ...args: string[]) => {
