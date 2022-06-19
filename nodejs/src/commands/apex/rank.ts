@@ -4,7 +4,7 @@ import fetch from 'node-fetch'
 // array of all platforms
 const Platform = ['PC', 'PS4', 'X1']
 
-//* Tested BakxY 24.05.2022 on version 1.15 (For all platforms)
+//* Tested BakxY 19.06.2022 on version 1.22 (For all platforms)
 
 export default {
     callback: async (ctx: Message, APEX_TOKEN: string, ...args: string[]) => {
