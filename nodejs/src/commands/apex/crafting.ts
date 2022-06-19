@@ -2,7 +2,7 @@ import { Message, MessageEmbed, ReplyMessageOptions } from 'discord.js'
 import { parse } from 'dotenv';
 import fetch from 'node-fetch'
 
-//* Tested BakxY 28.05.2022 on version 1.16
+//* Tested BakxY 19.06.2022 on version 1.22
 
 export default {
     callback: async (ctx: Message, APEX_TOKEN: string, ...args: string[]) => {
