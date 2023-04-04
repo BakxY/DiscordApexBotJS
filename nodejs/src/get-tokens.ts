@@ -1,26 +1,22 @@
-import fs from 'fs';
-
-// set file locations
-const apex_token_file = './resources/tokens/APEX_TOKEN.txt'
-const discord_token_file = './resources/tokens/DISCORD_TOKEN.txt'
-
 // export function import
 export function getDiscordToken() 
 {
     var discord_token = ''
 
+    console.log()
+
     // read token file
-    discord_token = fs.readFileSync(discord_token_file, 'utf-8')
+    discord_token = process.env.DISCORDTOKEN
 
     // check if the token files is empty
-    if(discord_token != '')
+    if(discord_token != undefined)
     {
         // return token
         return discord_token
     }
     else
     {
-        console.error('Discord token file is empty!')
+        console.error('Discord token is not set in env!')
         process.exit()
     }
 }
@@ -31,17 +27,17 @@ export function getApexToken()
     var apex_token = ''
 
     // read token file
-    apex_token = fs.readFileSync(apex_token_file, 'utf-8')
+    apex_token = process.env.APEXTOKEN
 
     // check if the token files is empty
-    if(apex_token != '')
+    if(apex_token != undefined)
     {
         // return token
         return apex_token
     }
     else
     {
-        console.error('Apex token file is empty!')
+        console.error('Apex token is not set in env!')
         process.exit()
     }
 }
