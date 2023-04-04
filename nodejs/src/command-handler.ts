@@ -14,7 +14,7 @@ export default (client: Client) => {
     }
 
     // define the suffix of your commands files
-    const suffix = '.ts'
+    const suffix = '.js'
 
     // read all command files
     const commandFiles = getFiles('./commands', suffix)
