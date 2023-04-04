@@ -1,7 +1,7 @@
 import { Message, MessageEmbed, ReplyMessageOptions, MessageAttachment } from 'discord.js'
 import fetch from 'node-fetch'
 
-//* Tested BakxY 19.06.2022 on version 1.22
+//* Tested BakxY 04.04.2023 on version 1.30
 
 export default {
     callback: async (ctx: Message, APEX_TOKEN: string, ...args: string[]) => {
@@ -86,23 +86,19 @@ export default {
                             '\n')
 
                 // add battle royale ranked map
-                message += ('\n**BATTLE ROYALE RANKED**' +
+                message += ('\n**BATTLE ROYALE RANKED**' + 
                             '\n> Current map: ' + json['ranked']['current']['map'] +
-                            '\n> Next split map: ' + json['ranked']['next']['map'] +
+                            '\n> Remaining: ' + json['ranked']['current']['remainingTimer'] +
+                            '\n> Next map: ' + json['ranked']['next']['map'] +
                             '\n')
 
-                // add arenas maps
-                message += ('\n**ARENAS**' +
-                            '\n> Current map: ' + json['arenas']['current']['map'] +
-                            '\n> Remaining: ' + json['arenas']['current']['remainingTimer'] +
-                            '\n> Next map: ' + json['arenas']['next']['map'] +
-                            '\n')
-
-                // add arenas ranked maps
-                message += ('\n**ARENAS RANKED**' +
-                            '\n> Current map: ' + json['arenasRanked']['current']['map'] +
-                            '\n> Remaining: ' + json['arenasRanked']['current']['remainingTimer'] +
-                            '\n> Next map: ' + json['arenasRanked']['next']['map'] +
+                // add current ltm and map
+                message += ('\n**LTM**' + 
+                            '\n> Current mode: ' + json['ltm']['current']['eventName'] +
+                            '\n> Current map: ' + json['ltm']['current']['map'] +
+                            '\n> Remaining: ' + json['ltm']['current']['remainingTimer'] +
+                            '\n> Next mode: ' + json['ltm']['next']['eventName'] +
+                            '\n> Next map: ' + json['ltm']['next']['map'] +
                             '\n')
                 
                 let ImageAttachment: MessageAttachment
@@ -122,6 +118,10 @@ export default {
                 else if(json['battle_royale']['current']['map'] == "World's Edge")
                 {
                     ImageAttachment = new MessageAttachment('./resources/maps/worlds-edge.jpg', 'MapImage.jpg');
+                }
+                else if(json['battle_royale']['current']['map'] == "Broken Moon")
+                {
+                    ImageAttachment = new MessageAttachment('./resources/maps/broken-moon.jpg', 'MapImage.jpg');
                 }
                 else
                 {
