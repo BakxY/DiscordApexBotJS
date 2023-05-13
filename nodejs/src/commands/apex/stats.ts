@@ -1,15 +1,18 @@
 import { Message, ReplyMessageOptions, MessageEmbed } from 'discord.js'
 import fetch from 'node-fetch'
 
-//* Tested BakxY 06.05.2022 on version 2.1
+//* Tested BakxY 13.05.2022 on version 2.2
 
 export default {
     callback: async (ctx: Message, APEX_TOKEN: string, ...args: string[]) => {
         // get message content
         var ctxMessage = ctx.content
 
+        // get all user link data
+        var UserLinkData = require('./../../resources/data/nameLink');
+
         // check if argument was given
-        if(ctxMessage == '!stats')
+        if(ctxMessage == '!stats' && UserLinkData[ctx.author.id] == undefined)
         {
             // no argument was provided
             ctx.reply({
@@ -25,11 +28,13 @@ export default {
         // filter out command to get argument
         var player = ctxMessage.replace('!stats ', '')
 
+        if(player == '!rank')
+        {
+            player = UserLinkData[ctx.author.id]
+        }
+
         if(player.startsWith('<@') && player.endsWith('>'))
         {
-            // get all user link data
-            var UserLinkData = require('./../../resources/data/nameLink');
-
             if(UserLinkData[player.replace('<@', '').replace('>', '')] == undefined)
             {
                 ctx.reply({
