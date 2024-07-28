@@ -1,4 +1,5 @@
 nodejs/src/resources/tokens/APEX_TOKEN.txt
 nodejs/src/resources/tokens/DISCORD_TOKEN.txt
-nodejs/dist
+nodejs/dist/
+nodejs/node_modules/
 notes.txt

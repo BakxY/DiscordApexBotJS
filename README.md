@@ -6,10 +6,6 @@ The bot was originally written in Python, but now that the project is getting a 
 
 Currently the bot is being setup step by step. We are converting the old Python code to TypeScript or rewriting entire parts.
 
-## Run it yourself
-
-We will create an guide on how to run the bot yourself. If you have any questions you can contact me on discord(BREXIT#2164) or just create an issue in the repo.
-
 ## I found a issue
 
 If you find a bug or have an idea, please create an issue. We will look into it as soon as possible.
