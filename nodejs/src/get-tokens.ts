@@ -3,8 +3,6 @@ export function getDiscordToken()
 {
     var discord_token = ''
 
-    console.log()
-
     // read token file
     discord_token = process.env.DISCORDTOKEN
 
