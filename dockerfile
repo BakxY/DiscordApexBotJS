@@ -5,6 +5,7 @@ WORKDIR /app
 COPY --chown=node:node ./nodejs .
 
 RUN npm install typescript -g
+RUN npm install
 
 USER node
 
@@ -17,7 +18,5 @@ COPY --chown=node:node ./nodejs/package.json .
 COPY --chown=node:node ./nodejs/src/resources ./resources
 
 VOLUME /app/dist/resources/data
-
-RUN npm install
 
 CMD ["node", "main.js"]
