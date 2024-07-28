@@ -159,14 +159,23 @@ export default {
         var embedVar = new MessageEmbed()
         .setColor(0xEF2AEF)
         .setTitle(json['global']['name'] + ' as ' + json['legends']['selected']['LegendName'])
-        .setImage(json['legends']['selected']['ImgAssets']['banner'])
-        .setThumbnail(json['legends']['selected']['ImgAssets']['icon'])
+        .setImage(json['legends']['selected']['ImgAssets']['banner'].replace(' ', '%20'))
+        .setThumbnail(json['legends']['selected']['ImgAssets']['icon'].replace(' ', '%20'))
         .setFooter({text : 'Data from apexlegendsstatus.com'})
         .setTimestamp()
 
         // display some standard stats
         embedVar.addField('Level', json['global']['level'].toString(), true)
-        embedVar.addField('BP-Level', json['global']['battlepass']['level'], true)
+
+        if(json['global']['battlepass']['level'] != null)
+        {
+            embedVar.addField('BP-Level', json['global']['battlepass']['level'], true)
+        }
+        else
+        {
+            embedVar.addField('BP-Level', 'No data', true)
+        }
+        
         embedVar.addField('_ _', '_ _', false)
         embedVar.addField('Status', json['realtime']['currentStateAsText'], true)
         embedVar.addField('Platform', json['global']['platform'], true)

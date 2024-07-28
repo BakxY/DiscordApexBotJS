@@ -3,7 +3,7 @@ import fs from 'fs'
 import 'dotenv/config'
 
 // import custom functions
-import { getDiscordToken} from './get-tokens'
+import { getDiscordToken } from './get-tokens'
 
 // create a new client for the discord bot
 const client = new Discord.Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] })
